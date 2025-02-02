@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import ExercisesGridComponent from './ExercisesGrid';
 import HeaderBar from './HeaderBar';
-import ExerciseModalFormModalForm from './ExerciseModalForm';
+import ExerciseModalForm from './ExerciseModalForm';
 
 export default function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -11,7 +11,7 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <HeaderBar onPlusPress={() => setModalVisible(true)} />
       <ExercisesGridComponent />
-      <ExerciseModalFormModalForm
+      <ExerciseModalForm
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
       />

@@ -1,6 +1,15 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { IconButton, Modal, Portal, TextInput, Text } from 'react-native-paper';
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  Text,
+} from 'react-native';
+import { IconButton, Modal, Portal, TextInput } from 'react-native-paper';
+import * as ImagePicker from 'expo-image-picker';
+import * as MediaLibrary from 'expo-media-library';
 
 interface ExerciseModalFormProps {
   visible: boolean;
@@ -11,6 +20,31 @@ const ExerciseModalForm: React.FC<ExerciseModalFormProps> = ({
   visible,
   onClose,
 }) => {
+  const [image, setImage] = useState<string | null>(null);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    /*let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images', 'videos'],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });*/
+
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ['images', 'videos'],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
   return (
     <Portal>
       <Modal
@@ -30,12 +64,17 @@ const ExerciseModalForm: React.FC<ExerciseModalFormProps> = ({
         </View>
         <ScrollView contentContainerStyle={styles.scrollView}>
           <Text style={styles.modalText}>Add Exercise</Text>
-          <TouchableOpacity
-            style={styles.photoButton}
-            onPress={() => console.log('Upload or take a photo')}
-          >
-            <IconButton icon="camera" size={24} iconColor="white" />
-            <Text style={styles.photoButtonText}>Upload or Take a Photo</Text>
+          <TouchableOpacity style={styles.photoButton} onPress={pickImage}>
+            {image ? (
+              <Image source={{ uri: image }} style={styles.image} />
+            ) : (
+              <>
+                <IconButton icon="camera" size={24} iconColor="white" />
+                <Text style={styles.photoButtonText}>
+                  Upload or Take a Photo
+                </Text>
+              </>
+            )}
           </TouchableOpacity>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>Machine Name</Text>
@@ -143,6 +182,11 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#f0f0f0',
     borderRadius: 5,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    marginTop: 10,
   },
   textArea: {
     height: 100,
