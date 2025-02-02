@@ -4,16 +4,14 @@ import { DataTable } from 'react-native-paper';
 
 export default function ExercisesGridComponent() {
   const [page, setPage] = React.useState<number>(0);
-  const [numberOfItemsPerPageList] = React.useState([2, 3, 4]);
-  const [itemsPerPage, onItemsPerPageChange] = React.useState(
-    numberOfItemsPerPageList[0],
-  );
+  const [itemsPerPage, onItemsPerPageChange] = React.useState(8);
 
   const [items] = React.useState([
     {
       key: 1,
       Image: 'https://picsum.photos/600/600',
       MachineName: 'Machine name',
+      Description: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Description',
     },
   ]);
 
@@ -32,7 +30,10 @@ export default function ExercisesGridComponent() {
             <Image source={{ uri: item.Image }} style={styles.image} />
           </DataTable.Cell>
           <DataTable.Cell numeric style={styles.textCell}>
-            <Text style={styles.text}>{item.MachineName}</Text>
+            <View style={styles.textContainer}>
+              <Text style={styles.text}>{item.MachineName}</Text>
+              <Text style={styles.description}>{item.Description}</Text>
+            </View>
           </DataTable.Cell>
         </DataTable.Row>
       ))}
@@ -42,33 +43,30 @@ export default function ExercisesGridComponent() {
         numberOfPages={Math.ceil(items.length / itemsPerPage)}
         onPageChange={(page) => setPage(page)}
         label={`${from + 1}-${to} of ${items.length}`}
-        numberOfItemsPerPageList={numberOfItemsPerPageList}
-        numberOfItemsPerPage={itemsPerPage}
         onItemsPerPageChange={onItemsPerPageChange}
         showFastPaginationControls
-        selectPageDropdownLabel={'Rows per page'}
       />
     </DataTable>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   row: {
-    height: Dimensions.get('window').width / 5, // Adjust the height as needed
+    height: Dimensions.get('window').width / 3.5, // Adjust the height as needed
     width: '100%',
-    backgroundColor: 'blue',
   },
   imageCell: {
     flex: 3, // 30% of the width
     justifyContent: 'center',
-    backgroundColor: 'red',
     alignItems: 'center',
   },
   textCell: {
     flex: 7, // 70% of the width
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'green',
   },
   image: {
     width: '95%', // Adjust the width as needed
@@ -77,5 +75,12 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
+  },
+  textContainer: {
+    alignItems: 'center',
+  },
+  description: {
+    textAlign: 'center',
+    marginTop: 5, // Adjust the margin as needed
   },
 });
