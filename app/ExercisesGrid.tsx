@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
-import { DataTable } from 'react-native-paper';
+import { View, StyleSheet, Image, Dimensions } from 'react-native';
+import { DataTable, Text } from 'react-native-paper';
 
 export default function ExercisesGridComponent() {
   const [page, setPage] = React.useState<number>(0);

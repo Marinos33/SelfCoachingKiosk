@@ -1,22 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Appbar, IconButton } from 'react-native-paper';
 import ExercisesGridComponent from './ExercisesGrid';
+import HeaderBar from './HeaderBar';
+import ExerciseModalFormModalForm from './ExerciseModalForm';
 
 export default function HomeScreen() {
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View style={styles.container}>
-      <Appbar.Header style={styles.appbar}>
-        <Appbar.Content title="Exercises" titleStyle={styles.title} />
-        <IconButton
-          icon="plus"
-          size={24}
-          iconColor="white"
-          style={styles.iconButton}
-          onPress={() => console.log('Add button pressed')}
-        />
-      </Appbar.Header>
+      <HeaderBar onPlusPress={() => setModalVisible(true)} />
       <ExercisesGridComponent />
+      <ExerciseModalFormModalForm
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+      />
     </View>
   );
 }
@@ -24,15 +22,5 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  appbar: {
-    backgroundColor: 'red', // Change this to your desired color
-  },
-  title: {
-    color: 'white',
-  },
-  iconButton: {
-    backgroundColor: 'black',
-    borderRadius: 24,
   },
 });
