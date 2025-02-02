@@ -1,12 +1,8 @@
-import { useLocalSearchParams } from 'expo-router';
 import { View, Text, StyleSheet } from 'react-native';
+import ExercisesGridComponent from './ExercisesGrid';
 
 export default function HomeScreen() {
-  return (
-    <View style={styles.container}>
-      <Text>program</Text>
-    </View>
-  );
+  return <ExercisesGridComponent />;
 }
 
 const styles = StyleSheet.create({

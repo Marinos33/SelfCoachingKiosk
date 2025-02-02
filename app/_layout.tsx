@@ -1,7 +1,5 @@
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Drawer } from 'expo-router/drawer';
 import { PaperProvider } from 'react-native-paper';
-import { Stack, useRouter } from 'expo-router';
+import { Stack } from 'expo-router';
 
 export default function Layout() {
   return (
