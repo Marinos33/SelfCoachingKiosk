@@ -1,79 +1,30 @@
+import ExerciseItem from '@/model/ExerciseItem';
 import React from 'react';
-import { View, StyleSheet, Image, Dimensions } from 'react-native';
-import { Checkbox, DataTable, Text } from 'react-native-paper';
+import {
+  View,
+  StyleSheet,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
+import { Checkbox, DataTable, Text, IconButton } from 'react-native-paper';
 
 const rowHeight = Dimensions.get('window').width / 4.5; // Adjust the height as needed
 const screenHeight = Dimensions.get('window').height;
 
-export default function ExercisesGridComponent() {
+interface ExercisesGridComponentProps {
+  items: ExerciseItem[];
+  onCheckboxPress: (key: number) => void;
+  onEditPress: (exercise: ExerciseItem) => void;
+}
+
+export default function ExercisesGridComponent({
+  items,
+  onCheckboxPress,
+  onEditPress,
+}: ExercisesGridComponentProps) {
   const [page, setPage] = React.useState<number>(0);
-  const itemsPerPage = Math.floor(screenHeight / rowHeight);
-  const [items, setItems] = React.useState([
-    {
-      key: 1,
-      Image: 'https://picsum.photos/600/600',
-      MachineName: 'Machine name',
-      Weight: '25kg',
-      Description: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Description',
-      Status: false,
-    },
-    {
-      key: 2,
-      Image: 'https://picsum.photos/600/600',
-      MachineName: 'Machine name',
-      Weight: '25kg',
-      Description: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Description',
-      Status: false,
-    },
-    {
-      key: 3,
-      Image: 'https://picsum.photos/600/600',
-      MachineName: 'Machine name',
-      Weight: '25kg',
-      Description: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Description',
-      Status: false,
-    },
-    {
-      key: 4,
-      Image: 'https://picsum.photos/600/600',
-      MachineName: 'Machine name',
-      Weight: '25kg',
-      Description: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Description',
-      Status: false,
-    },
-    {
-      key: 5,
-      Image: 'https://picsum.photos/600/600',
-      MachineName: 'Machine name',
-      Weight: '25kg',
-      Description: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Description',
-      Status: false,
-    },
-    {
-      key: 6,
-      Image: 'https://picsum.photos/600/600',
-      MachineName: 'Machine name',
-      Weight: '25kg',
-      Description: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Description',
-      Status: false,
-    },
-    {
-      key: 7,
-      Image: 'https://picsum.photos/600/600',
-      MachineName: 'Machine name',
-      Weight: '25kg',
-      Description: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Description',
-      Status: false,
-    },
-    {
-      key: 8,
-      Image: 'https://picsum.photos/600/600',
-      MachineName: 'Machine name',
-      Weight: '25kg',
-      Description: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Description',
-      Status: false,
-    },
-  ]);
+  const itemsPerPage = Math.floor(screenHeight / rowHeight) - 1;
 
   const from = page * itemsPerPage;
   const to = Math.min((page + 1) * itemsPerPage, items.length);
@@ -82,37 +33,31 @@ export default function ExercisesGridComponent() {
     setPage(0);
   }, [itemsPerPage]);
 
-  const handleCheckboxPress = (key: number) => {
-    setItems((prevItems) =>
-      prevItems.map((item) =>
-        item.key === key ? { ...item, Status: !item.Status } : item,
-      ),
-    );
-  };
-
   return (
     <DataTable>
       {items.slice(from, to).map((item) => (
-        <DataTable.Row key={item.key} style={styles.row}>
-          <DataTable.Cell style={styles.imageCell}>
-            <Image source={{ uri: item.Image }} style={styles.image} />
-          </DataTable.Cell>
-          <DataTable.Cell numeric style={styles.textCell}>
-            <View style={styles.textContainer}>
-              <Text style={styles.text}>{item.MachineName}</Text>
-              <Text style={styles.description}>{item.Description}</Text>
-            </View>
-          </DataTable.Cell>
-          <DataTable.Cell numeric style={styles.wightCell}>
-            <Text style={styles.text}>{item.Weight}</Text>
-          </DataTable.Cell>
-          <DataTable.Cell numeric style={styles.checkboxCell}>
-            <Checkbox
-              status={item.Status ? 'checked' : 'unchecked'}
-              onPress={() => handleCheckboxPress(item.key)}
-            />
-          </DataTable.Cell>
-        </DataTable.Row>
+        <TouchableOpacity key={item.Id} onPress={() => onEditPress(item)}>
+          <DataTable.Row style={styles.row}>
+            <DataTable.Cell style={styles.imageCell}>
+              <Image source={{}} style={styles.image} />
+            </DataTable.Cell>
+            <DataTable.Cell numeric style={styles.textCell}>
+              <View style={styles.textContainer}>
+                <Text style={styles.text}>{item.MachineName}</Text>
+                <Text style={styles.description}>{item.Description}</Text>
+              </View>
+            </DataTable.Cell>
+            <DataTable.Cell numeric style={styles.wightCell}>
+              <Text style={styles.text}>{item.Weight}</Text>
+            </DataTable.Cell>
+            <DataTable.Cell numeric style={styles.checkboxCell}>
+              <Checkbox
+                status={item.Status ? 'checked' : 'unchecked'}
+                onPress={() => onCheckboxPress(item.Id)}
+              />
+            </DataTable.Cell>
+          </DataTable.Row>
+        </TouchableOpacity>
       ))}
 
       <DataTable.Pagination

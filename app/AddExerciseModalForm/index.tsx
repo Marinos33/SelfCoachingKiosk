@@ -5,31 +5,34 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  Text,
+  Alert,
 } from 'react-native';
-import { IconButton, Modal, Portal, TextInput } from 'react-native-paper';
+import { IconButton, Modal, Portal, TextInput, Text } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
+import ExerciseItem from '@/model/ExerciseItem';
 
-interface ExerciseModalFormProps {
+interface AddExerciseModalFormProps {
   visible: boolean;
   onClose: () => void;
+  onSave: (item: ExerciseItem) => void;
 }
 
-const ExerciseModalForm: React.FC<ExerciseModalFormProps> = ({
+const AddExerciseModalForm: React.FC<AddExerciseModalFormProps> = ({
   visible,
   onClose,
+  onSave,
 }) => {
   const [image, setImage] = useState<string | null>(null);
+  const [machineName, setMachineName] = useState('');
+  const [description, setDescription] = useState('');
+  const [weight, setWeight] = useState('');
+  const [numberOfSeries, setNumberOfSeries] = useState('');
+  const [repsPerSeries, setRepsPerSeries] = useState('');
+  const [restBetweenSeries, setRestBetweenSeries] = useState('');
+  const [tempo, setTempo] = useState('');
+  const [notes, setNotes] = useState('');
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    /*let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images', 'videos'],
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });*/
-
     let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ['images', 'videos'],
       allowsEditing: true,
@@ -42,11 +45,51 @@ const ExerciseModalForm: React.FC<ExerciseModalFormProps> = ({
     }
   };
 
+  const resetForm = () => {
+    setImage(null);
+    setMachineName('');
+    setDescription('');
+    setWeight('');
+    setNumberOfSeries('');
+    setRepsPerSeries('');
+    setRestBetweenSeries('');
+    setTempo('');
+    setNotes('');
+  };
+
+  const handleClose = () => {
+    resetForm();
+    onClose();
+  };
+
+  const handleSave = () => {
+    if (!machineName || !weight || !numberOfSeries || !repsPerSeries) {
+      Alert.alert('Error', 'Please fill in all required fields.');
+      return;
+    }
+
+    const item: ExerciseItem = {
+      Id: 0,
+      Image: image,
+      MachineName: machineName,
+      Description: description,
+      Weight: weight,
+      NumberOfSeries: numberOfSeries,
+      RepsPerSeries: repsPerSeries,
+      RestBetweenSeries: restBetweenSeries,
+      Tempo: tempo,
+      Notes: notes,
+      Status: false,
+    };
+    onSave(item);
+    handleClose();
+  };
+
   return (
     <Portal>
       <Modal
         visible={visible}
-        onDismiss={onClose}
+        onDismiss={handleClose}
         dismissable={false}
         contentContainerStyle={styles.modalView}
       >
@@ -55,8 +98,15 @@ const ExerciseModalForm: React.FC<ExerciseModalFormProps> = ({
             icon="close"
             size={24}
             iconColor="white"
-            onPress={onClose}
+            onPress={handleClose}
             style={styles.closeIcon}
+          />
+          <IconButton
+            icon="check"
+            size={24}
+            iconColor="white"
+            onPress={handleSave}
+            style={styles.saveIcon}
           />
         </View>
         <ScrollView contentContainerStyle={styles.scrollView}>
@@ -74,8 +124,15 @@ const ExerciseModalForm: React.FC<ExerciseModalFormProps> = ({
             )}
           </TouchableOpacity>
           <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Machine Name</Text>
-            <TextInput style={styles.input} mode="outlined" />
+            <Text style={styles.inputLabel}>
+              Machine Name <Text style={styles.required}>*</Text>
+            </Text>
+            <TextInput
+              style={styles.input}
+              mode="outlined"
+              value={machineName}
+              onChangeText={setMachineName}
+            />
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>Description</Text>
@@ -84,31 +141,61 @@ const ExerciseModalForm: React.FC<ExerciseModalFormProps> = ({
               multiline
               numberOfLines={4}
               mode="outlined"
+              value={description}
+              onChangeText={setDescription}
             />
           </View>
           <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Weight</Text>
+            <Text style={styles.inputLabel}>
+              Weight <Text style={styles.required}>*</Text>
+            </Text>
             <TextInput
               style={styles.input}
               keyboardType="numeric"
               mode="outlined"
+              value={weight}
+              onChangeText={setWeight}
             />
           </View>
           <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Number of Series</Text>
-            <TextInput style={styles.input} mode="outlined" />
+            <Text style={styles.inputLabel}>
+              Number of Series <Text style={styles.required}>*</Text>
+            </Text>
+            <TextInput
+              style={styles.input}
+              mode="outlined"
+              value={numberOfSeries}
+              onChangeText={setNumberOfSeries}
+            />
           </View>
           <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Reps per Series</Text>
-            <TextInput style={styles.input} mode="outlined" />
+            <Text style={styles.inputLabel}>
+              Reps per Series <Text style={styles.required}>*</Text>
+            </Text>
+            <TextInput
+              style={styles.input}
+              mode="outlined"
+              value={repsPerSeries}
+              onChangeText={setRepsPerSeries}
+            />
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>Rest Between Series</Text>
-            <TextInput style={styles.input} mode="outlined" />
+            <TextInput
+              style={styles.input}
+              mode="outlined"
+              value={restBetweenSeries}
+              onChangeText={setRestBetweenSeries}
+            />
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>Tempo</Text>
-            <TextInput style={styles.input} mode="outlined" />
+            <TextInput
+              style={styles.input}
+              mode="outlined"
+              value={tempo}
+              onChangeText={setTempo}
+            />
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>Notes</Text>
@@ -117,6 +204,8 @@ const ExerciseModalForm: React.FC<ExerciseModalFormProps> = ({
               multiline
               numberOfLines={4}
               mode="outlined"
+              value={notes}
+              onChangeText={setNotes}
             />
           </View>
         </ScrollView>
@@ -137,10 +226,14 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
   },
   closeIcon: {
-    backgroundColor: '#6200ee',
+    backgroundColor: '#a7a7a7',
+    borderRadius: 12,
+  },
+  saveIcon: {
+    backgroundColor: '#4caf50',
     borderRadius: 12,
   },
   scrollView: {
@@ -157,7 +250,7 @@ const styles = StyleSheet.create({
   photoButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#6200ee',
+    backgroundColor: '#a7a7a7',
     padding: 10,
     borderRadius: 5,
     marginBottom: 20,
@@ -175,6 +268,9 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: 'bold',
   },
+  required: {
+    color: 'red',
+  },
   input: {
     width: '100%',
     backgroundColor: '#f0f0f0',
@@ -191,4 +287,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ExerciseModalForm;
+export default AddExerciseModalForm;
