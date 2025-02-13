@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import { IconButton, Modal, Portal, TextInput } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
-import * as MediaLibrary from 'expo-media-library';
 
 interface ExerciseModalFormProps {
   visible: boolean;
@@ -37,8 +36,6 @@ const ExerciseModalForm: React.FC<ExerciseModalFormProps> = ({
       aspect: [4, 3],
       quality: 1,
     });
-
-    console.log(result);
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
