@@ -15,6 +15,7 @@ interface UpdateExerciseModalFormProps {
   visible: boolean;
   onClose: () => void;
   onUpdate: (item: ExerciseItem) => void;
+  onRemove: (key: number) => void;
   exercise: ExerciseItem;
 }
 
@@ -22,6 +23,7 @@ const UpdateExerciseModalForm: React.FC<UpdateExerciseModalFormProps> = ({
   visible,
   onClose,
   onUpdate,
+  onRemove,
   exercise,
 }) => {
   const [image, setImage] = useState<string | null>(exercise.Image);
@@ -75,6 +77,28 @@ const UpdateExerciseModalForm: React.FC<UpdateExerciseModalFormProps> = ({
     handleClose();
   };
 
+  const handleRemove = () => {
+    Alert.alert(
+      'Confirm Removal',
+      'Are you sure you want to remove this exercise?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Remove',
+          style: 'destructive',
+          onPress: () => {
+            onRemove(exercise.Id);
+            handleClose();
+          },
+        },
+      ],
+      { cancelable: true },
+    );
+  };
+
   return (
     <Portal>
       <Modal
@@ -84,13 +108,22 @@ const UpdateExerciseModalForm: React.FC<UpdateExerciseModalFormProps> = ({
         contentContainerStyle={styles.modalView}
       >
         <View style={styles.header}>
-          <IconButton
-            icon="close"
-            size={24}
-            iconColor="white"
-            onPress={handleClose}
-            style={styles.closeIcon}
-          />
+          <View style={styles.leftButtons}>
+            <IconButton
+              icon="delete"
+              size={24}
+              iconColor="white"
+              onPress={handleRemove}
+              style={styles.removeIcon}
+            />
+            <IconButton
+              icon="close"
+              size={24}
+              iconColor="white"
+              onPress={handleClose}
+              style={styles.closeIcon}
+            />
+          </View>
           <IconButton
             icon="check"
             size={24}
@@ -219,9 +252,17 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  leftButtons: {
+    flexDirection: 'row',
   },
   closeIcon: {
     backgroundColor: '#a7a7a7',
+    borderRadius: 12,
+  },
+  removeIcon: {
+    backgroundColor: '#f44336',
     borderRadius: 12,
   },
   saveIcon: {

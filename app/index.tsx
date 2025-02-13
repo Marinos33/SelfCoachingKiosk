@@ -86,6 +86,10 @@ export default function HomeScreen() {
     setUpdateModalVisible(false);
   };
 
+  const handleRemove = (key: number) => {
+    setItems((prevItems) => prevItems.filter((item) => item.Id !== key));
+  };
+
   const handleCheckboxPress = (key: number) => {
     setItems((prevItems) =>
       prevItems.map((item) =>
@@ -117,6 +121,7 @@ export default function HomeScreen() {
           visible={updateModalVisible}
           onClose={() => setUpdateModalVisible(false)}
           onUpdate={handleUpdate}
+          onRemove={handleRemove}
           exercise={selectedExercise}
         />
       )}
