@@ -39,36 +39,13 @@ export default function HomeScreen() {
   }, [data, success]);
 
   const handleAdd = (item: ExerciseItem) => {
-    addExercise({
-      image: item.Image ? BufferPkg.from(item.Image, 'base64') : null,
-      machineName: item.MachineName,
-      description: item.Description,
-      weight: item.Weight,
-      numberOfSeries: item.NumberOfSeries,
-      repsPerSeries: item.RepsPerSeries,
-      restBetweenSeries: item.RestBetweenSeries,
-      tempo: item.Tempo,
-      notes: item.Notes,
-    });
+    addExercise(mapExerciseItemToDb(item));
 
     setModalVisible(false);
   };
 
   const handleUpdate = (updatedItem: ExerciseItem) => {
-    updateExercise({
-      id: updatedItem.Id,
-      image: updatedItem.Image
-        ? BufferPkg.from(updatedItem.Image, 'base64')
-        : null,
-      machineName: updatedItem.MachineName,
-      description: updatedItem.Description,
-      weight: updatedItem.Weight,
-      numberOfSeries: updatedItem.NumberOfSeries,
-      repsPerSeries: updatedItem.RepsPerSeries,
-      restBetweenSeries: updatedItem.RestBetweenSeries,
-      tempo: updatedItem.Tempo,
-      notes: updatedItem.Notes,
-    });
+    updateExercise(mapExerciseItemToDb(updatedItem));
 
     setUpdateModalVisible(false);
   };

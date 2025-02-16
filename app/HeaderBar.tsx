@@ -9,7 +9,7 @@ interface HeaderBarProps {
 const HeaderBar: React.FC<HeaderBarProps> = ({ onPlusPress }) => {
   return (
     <Appbar.Header style={styles.appbar}>
-      <Appbar.Content title="Exercises" titleStyle={styles.title} />
+      <Appbar.Content title="Self Coaching Kiosk" titleStyle={styles.title} />
       <IconButton
         icon="plus"
         size={24}
