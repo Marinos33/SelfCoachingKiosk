@@ -10,6 +10,7 @@ import {
 import { IconButton, Modal, Portal, TextInput, Text } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import ExerciseItem from '@/model/ExerciseItem';
+import * as FileSystem from 'expo-file-system';
 
 interface AddExerciseModalFormProps {
   visible: boolean;
@@ -41,7 +42,10 @@ const AddExerciseModalForm: React.FC<AddExerciseModalFormProps> = ({
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      const base64 = await FileSystem.readAsStringAsync(result.assets[0].uri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+      setImage(base64);
     }
   };
 
@@ -113,7 +117,10 @@ const AddExerciseModalForm: React.FC<AddExerciseModalFormProps> = ({
           <Text style={styles.modalText}>Add Exercise</Text>
           <TouchableOpacity style={styles.photoButton} onPress={pickImage}>
             {image ? (
-              <Image source={{ uri: image }} style={styles.image} />
+              <Image
+                source={{ uri: `data:image/jpeg;base64,${image}` }}
+                style={styles.image}
+              />
             ) : (
               <>
                 <IconButton icon="camera" size={24} iconColor="white" />

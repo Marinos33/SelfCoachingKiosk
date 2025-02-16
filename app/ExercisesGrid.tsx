@@ -1,13 +1,9 @@
 import ExerciseItem from '@/model/ExerciseItem';
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Image,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
-import { Checkbox, DataTable, Text, IconButton } from 'react-native-paper';
+import { View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { Image } from 'expo-image';
+import { Checkbox, DataTable, Text } from 'react-native-paper';
+import { useAssets } from 'expo-asset';
 
 const rowHeight = Dimensions.get('window').width / 4.5; // Adjust the height as needed
 const screenHeight = Dimensions.get('window').height;
@@ -23,6 +19,10 @@ export default function ExercisesGridComponent({
   onCheckboxPress,
   onEditPress,
 }: ExercisesGridComponentProps) {
+  const [assets, error] = useAssets([
+    require('../assets/images/not-found.jpg'),
+  ]);
+
   const [page, setPage] = React.useState<number>(0);
   const itemsPerPage = Math.floor(screenHeight / rowHeight) - 1;
 
@@ -39,7 +39,17 @@ export default function ExercisesGridComponent({
         <TouchableOpacity key={item.Id} onPress={() => onEditPress(item)}>
           <DataTable.Row style={styles.row}>
             <DataTable.Cell style={styles.imageCell}>
-              <Image source={{}} style={styles.image} />
+              <Image
+                source={
+                  item.Image
+                    ? { uri: `data:image/jpeg;base64,${item.Image}` }
+                    : assets
+                    ? assets[0]
+                    : null // Use the default image from assets if available
+                }
+                style={styles.image}
+                contentFit="contain"
+              />
             </DataTable.Cell>
             <DataTable.Cell numeric style={styles.textCell}>
               <View style={styles.textContainer}>
@@ -103,7 +113,6 @@ const styles = StyleSheet.create({
   image: {
     width: '95%', // Adjust the width as needed
     height: '95%', // Adjust the height as needed
-    resizeMode: 'contain',
   },
   text: {
     textAlign: 'center',
