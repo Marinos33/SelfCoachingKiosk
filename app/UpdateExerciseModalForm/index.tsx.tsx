@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -38,6 +38,18 @@ const UpdateExerciseModalForm: React.FC<UpdateExerciseModalFormProps> = ({
   );
   const [tempo, setTempo] = useState<string | null>(exercise.Tempo || null);
   const [notes, setNotes] = useState<string | null>(exercise.Notes || null);
+
+  useEffect(() => {
+    setImage(exercise.Image);
+    setMachineName(exercise.MachineName);
+    setDescription(exercise.Description || '');
+    setWeight(exercise.Weight);
+    setNumberOfSeries(exercise.NumberOfSeries);
+    setRepsPerSeries(exercise.RepsPerSeries);
+    setRestBetweenSeries(exercise.RestBetweenSeries || null);
+    setTempo(exercise.Tempo || null);
+    setNotes(exercise.Notes || null);
+  }, [exercise]);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchCameraAsync({
