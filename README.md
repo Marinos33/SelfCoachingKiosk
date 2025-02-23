@@ -1,50 +1,60 @@
-# Welcome to your Expo app 👋
+# Self Coaching Kiosk
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Self Coaching Kiosk is a mobile application designed to help users manage and track their exercise routines. The app allows users to add, update, and remove exercises, as well as view a grid of their exercises with details such as machine name, description, weight, number of series, reps per series, rest between series, tempo, and notes.
 
-## Get started
+## Features
 
-1. Install dependencies
+- **Add Exercise**: Users can add new exercises with details such as machine name, description, weight, number of series, reps per series, rest between series, tempo, and notes. Users can also upload or take a photo for each exercise.
+- **Update Exercise**: Users can update existing exercises with new details and photos.
+- **Remove Exercise**: Users can remove exercises from their list.
+- **Exercise Grid**: Users can view their exercises in a list format with details and photos.
+- **Checkbox Status**: Users can mark exercises as completed or not completed using a checkbox.
 
-   ```bash
+## Usage
+
+1. Open the app on your mobile device.
+2. Add a new exercise by clicking the "+" button on top right.
+3. Fill in the details for the exercise and click "Save".
+4. Tap on an exercise to view details and update or remove it.
+5. Mark an exercise as completed by checking the checkbox.
+
+## Technologies Used
+
+- **React Native**: For building the mobile application.
+- **Expo**: For development and building the app.
+- **React Native Paper**: For UI components.
+- **Drizzle ORM**: For database operations.
+
+## Installation APK
+
+1. Download the latest APK file from the [releases page](https://github.com/Marinos33/SelfCoachingKiosk/releases).
+2. Install the APK on your Android device.
+3. Open the app on your mobile device.
+
+## Installation for development
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/Marinos33/SelfCoachingKiosk.git
+   ```
+2. Navigate to the project directory:
+   ```sh
+   cd self-coaching-kiosk
+   ```
+3. Install the dependencies:
+   ```sh
    npm install
    ```
-
-2. Start the app
-
-   ```bash
-    npx expo start
+4. Start the Expo server:
+   ```sh
+   npm start
    ```
+5. Open the Expo Go app on your mobile device and scan the QR code to run the app.
 
-In the output, you'll find options to open the app in a
+## Contributing
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## License
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+[MIT](https://github.com/Marinos33/SelfCoachingKiosk/blob/dev/LICENSE)

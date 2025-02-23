@@ -1,10 +1,10 @@
 {
   "expo": {
     "name": "SelfCoachingKiosk",
-    "slug": "SelfCoachingKiosk",
+    "slug": "self-coaching-kiosk",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/myapp-icon.png",
+    "icon": "./assets/images/myappicon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,14 +13,22 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/myapp-icon.png",
+        "foregroundImage": "./assets/images/myappicon.png",
         "backgroundColor": "#000000"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.ACCESS_MEDIA_LOCATION"
+      ],
+      "package": "com.marinos33.selfcoachingkiosk"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/myapp-icon.png"
+      "favicon": "./assets/images/myappicon.png"
     },
     "plugins": [
       "expo-router",
@@ -63,12 +71,29 @@
       [
         "expo-asset",
         {
-          "assets": ["./assets/images/not-found.jpg"]
+          "assets": ["./assets/images/notfound.jpg"]
+        }
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "organization": "${SENTRY_ORG}",
+          "project": "${SENTRY_PROJECT}",
+          "url": "https://sentry.io/"
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "4820a9dd-3cd8-425d-851c-4549f821b64b"
+      }
+    },
+    "owner": "loicmid"
   }
 }

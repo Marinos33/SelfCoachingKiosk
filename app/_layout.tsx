@@ -13,6 +13,7 @@ import {
 import { Colors } from '../constants/Colors';
 import { useColorScheme } from 'react-native';
 import merge from 'deepmerge';
+import * as Sentry from '@sentry/react-native';
 
 const customDarkTheme = { ...MD3DarkTheme, colors: Colors.dark };
 const customLightTheme = { ...MD3LightTheme, colors: Colors.light };
@@ -25,7 +26,12 @@ const { LightTheme, DarkTheme } = adaptNavigationTheme({
 const CombinedLightTheme = merge(LightTheme, customLightTheme);
 const CombinedDarkTheme = merge(DarkTheme, customDarkTheme);
 
-export default function Layout() {
+function Layout() {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    debug: false,
+  });
+
   const colorScheme = useColorScheme();
 
   const paperTheme =
@@ -41,3 +47,5 @@ export default function Layout() {
     </PaperProvider>
   );
 }
+
+export default Sentry.wrap(Layout);

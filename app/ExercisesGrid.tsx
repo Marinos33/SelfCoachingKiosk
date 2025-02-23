@@ -19,7 +19,7 @@ export default function ExercisesGridComponent({
   onCheckboxPress,
   onEditPress,
 }: ExercisesGridComponentProps) {
-  const [assets] = useAssets([require('../assets/images/not-found.jpg')]);
+  const [assets] = useAssets([require('../assets/images/notfound.jpg')]);
 
   const [page, setPage] = React.useState<number>(0);
   const itemsPerPage = Math.floor(screenHeight / rowHeight) - 1;
