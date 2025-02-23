@@ -14,7 +14,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({ onPlusPress }) => {
       <IconButton
         icon="plus"
         size={24}
-        iconColor="white"
+        iconColor={theme.colors.onBackground}
         style={{
           ...styles.iconButton,
           backgroundColor: theme.colors.background,
