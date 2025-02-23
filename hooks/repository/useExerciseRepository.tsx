@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import * as SQLite from 'expo-sqlite';
 import { drizzle, useLiveQuery } from 'drizzle-orm/expo-sqlite';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';

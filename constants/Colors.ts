@@ -1,11 +1,3 @@
-/**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
- */
-
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
-
 export const Colors = {
   light: {
     primary: 'rgb(186, 26, 32)',
@@ -50,45 +42,55 @@ export const Colors = {
     backdrop: 'rgba(59, 45, 44, 0.4)',
   },
   dark: {
-    primary: 'rgb(255, 179, 172)',
-    onPrimary: 'rgb(104, 0, 8)',
-    primaryContainer: 'rgb(147, 0, 16)',
-    onPrimaryContainer: 'rgb(255, 218, 214)',
-    secondary: 'rgb(255, 181, 160)',
-    onSecondary: 'rgb(96, 21, 0)',
-    secondaryContainer: 'rgb(135, 33, 0)',
-    onSecondaryContainer: 'rgb(255, 219, 209)',
-    tertiary: 'rgb(255, 181, 158)',
-    onTertiary: 'rgb(93, 24, 0)',
-    tertiaryContainer: 'rgb(124, 45, 18)',
-    onTertiaryContainer: 'rgb(255, 219, 208)',
-    error: 'rgb(255, 180, 171)',
-    onError: 'rgb(105, 0, 5)',
-    errorContainer: 'rgb(147, 0, 10)',
-    onErrorContainer: 'rgb(255, 180, 171)',
-    background: 'rgb(32, 26, 25)',
-    onBackground: 'rgb(237, 224, 222)',
-    surface: 'rgb(32, 26, 25)',
-    onSurface: 'rgb(237, 224, 222)',
-    surfaceVariant: 'rgb(83, 67, 66)',
-    onSurfaceVariant: 'rgb(216, 194, 191)',
-    outline: 'rgb(160, 140, 138)',
-    outlineVariant: 'rgb(83, 67, 66)',
+    primary: 'rgb(190, 40, 40)', // Slightly deeper red for richness
+    onPrimary: 'rgb(255, 235, 235)', // Softer white for less contrast strain
+    primaryContainer: 'rgb(60, 0, 0)',
+    onPrimaryContainer: 'rgb(255, 190, 190)',
+
+    secondary: 'rgb(170, 60, 60)',
+    onSecondary: 'rgb(255, 240, 240)',
+    secondaryContainer: 'rgb(65, 0, 0)',
+    onSecondaryContainer: 'rgb(255, 210, 200)',
+
+    tertiary: 'rgb(150, 70, 70)',
+    onTertiary: 'rgb(255, 230, 230)',
+    tertiaryContainer: 'rgb(50, 0, 0)',
+    onTertiaryContainer: 'rgb(255, 215, 205)',
+
+    error: 'rgb(200, 40, 40)',
+    onError: 'rgb(255, 230, 230)',
+    errorContainer: 'rgb(70, 0, 0)',
+    onErrorContainer: 'rgb(255, 195, 195)',
+
+    background: 'rgb(15, 15, 15)', // Slightly warmer black
+    onBackground: 'rgb(255, 255, 255)',
+
+    surface: 'rgb(211, 13, 13)', // Warmer deep red for headers
+    onSurface: 'rgb(255, 230, 230)',
+    surfaceVariant: 'rgb(40, 40, 40)',
+    onSurfaceVariant: 'rgb(17, 17, 17)',
+
+    outline: 'rgb(110, 110, 110)',
+    outlineVariant: 'rgb(50, 50, 50)',
+
     shadow: 'rgb(0, 0, 0)',
     scrim: 'rgb(0, 0, 0)',
-    inverseSurface: 'rgb(237, 224, 222)',
-    inverseOnSurface: 'rgb(54, 47, 46)',
-    inversePrimary: 'rgb(186, 26, 32)',
+
+    inverseSurface: 'rgb(250, 250, 250)',
+    inverseOnSurface: 'rgb(20, 20, 20)',
+    inversePrimary: 'rgb(220, 50, 50)',
+
     elevation: {
       level0: 'transparent',
-      level1: 'rgb(43, 34, 32)',
-      level2: 'rgb(50, 38, 37)',
-      level3: 'rgb(57, 43, 41)',
-      level4: 'rgb(59, 44, 43)',
-      level5: 'rgb(63, 47, 46)',
+      level1: 'rgb(25, 25, 25)',
+      level2: 'rgb(35, 35, 35)',
+      level3: 'rgb(45, 45, 45)',
+      level4: 'rgb(55, 55, 55)',
+      level5: 'rgb(65, 65, 65)',
     },
-    surfaceDisabled: 'rgba(237, 224, 222, 0.12)',
-    onSurfaceDisabled: 'rgba(237, 224, 222, 0.38)',
-    backdrop: 'rgba(59, 45, 44, 0.4)',
+
+    surfaceDisabled: 'rgba(255, 255, 255, 0.10)',
+    onSurfaceDisabled: 'rgba(255, 255, 255, 0.35)',
+    backdrop: 'rgba(0, 0, 0, 0.5)',
   },
 };

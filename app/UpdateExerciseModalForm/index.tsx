@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -10,6 +10,7 @@ import {
 import {
   IconButton,
   Modal,
+  Portal,
   TextInput,
   Text,
   useTheme,
@@ -18,27 +19,45 @@ import * as ImagePicker from 'expo-image-picker';
 import ExerciseItem from '@/model/ExerciseItem';
 import * as FileSystem from 'expo-file-system';
 
-interface AddExerciseModalFormProps {
+interface UpdateExerciseModalFormProps {
   visible: boolean;
   onClose: () => void;
-  onSave: (item: ExerciseItem) => void;
+  onUpdate: (item: ExerciseItem) => void;
+  onRemove: (key: number) => void;
+  exercise: ExerciseItem;
 }
 
-const AddExerciseModalForm: React.FC<AddExerciseModalFormProps> = ({
+const UpdateExerciseModalForm: React.FC<UpdateExerciseModalFormProps> = ({
   visible,
   onClose,
-  onSave,
+  onUpdate,
+  onRemove,
+  exercise,
 }) => {
-  const [image, setImage] = useState<string | null>(null);
-  const [machineName, setMachineName] = useState('');
-  const [description, setDescription] = useState('');
-  const [weight, setWeight] = useState('');
-  const [numberOfSeries, setNumberOfSeries] = useState('');
-  const [repsPerSeries, setRepsPerSeries] = useState('');
-  const [restBetweenSeries, setRestBetweenSeries] = useState('');
-  const [tempo, setTempo] = useState('');
-  const [notes, setNotes] = useState('');
+  const [image, setImage] = useState<string | null>(exercise.Image);
+  const [machineName, setMachineName] = useState(exercise.MachineName);
+  const [description, setDescription] = useState(exercise.Description || '');
+  const [weight, setWeight] = useState(exercise.Weight);
+  const [numberOfSeries, setNumberOfSeries] = useState(exercise.NumberOfSeries);
+  const [repsPerSeries, setRepsPerSeries] = useState(exercise.RepsPerSeries);
+  const [restBetweenSeries, setRestBetweenSeries] = useState<string | null>(
+    exercise.RestBetweenSeries || null,
+  );
+  const [tempo, setTempo] = useState<string | null>(exercise.Tempo || null);
+  const [notes, setNotes] = useState<string | null>(exercise.Notes || null);
   const theme = useTheme();
+
+  useEffect(() => {
+    setImage(exercise.Image);
+    setMachineName(exercise.MachineName);
+    setDescription(exercise.Description || '');
+    setWeight(exercise.Weight);
+    setNumberOfSeries(exercise.NumberOfSeries);
+    setRepsPerSeries(exercise.RepsPerSeries);
+    setRestBetweenSeries(exercise.RestBetweenSeries || null);
+    setTempo(exercise.Tempo || null);
+    setNotes(exercise.Notes || null);
+  }, [exercise]);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchCameraAsync({
@@ -56,44 +75,52 @@ const AddExerciseModalForm: React.FC<AddExerciseModalFormProps> = ({
     }
   };
 
-  const resetForm = () => {
-    setImage(null);
-    setMachineName('');
-    setDescription('');
-    setWeight('');
-    setNumberOfSeries('');
-    setRepsPerSeries('');
-    setRestBetweenSeries('');
-    setTempo('');
-    setNotes('');
-  };
-
   const handleClose = () => {
-    resetForm();
     onClose();
   };
 
-  const handleSave = () => {
+  const handleUpdate = () => {
     if (!machineName || !weight || !numberOfSeries || !repsPerSeries) {
       Alert.alert('Error', 'Please fill in all required fields.');
       return;
     }
 
-    const item: ExerciseItem = {
-      Id: 0,
+    const updatedItem: ExerciseItem = {
+      ...exercise,
       Image: image,
       MachineName: machineName,
       Description: description,
       Weight: weight,
       NumberOfSeries: numberOfSeries,
       RepsPerSeries: repsPerSeries,
-      RestBetweenSeries: restBetweenSeries,
+      RestBetweenSeries: restBetweenSeries || null,
       Tempo: tempo,
       Notes: notes,
-      Status: false,
     };
-    onSave(item);
+    onUpdate(updatedItem);
     handleClose();
+  };
+
+  const handleRemove = () => {
+    Alert.alert(
+      'Confirm Removal',
+      'Are you sure you want to remove this exercise?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Remove',
+          style: 'destructive',
+          onPress: () => {
+            onRemove(exercise.Id);
+            handleClose();
+          },
+        },
+      ],
+      { cancelable: true },
+    );
   };
 
   return (
@@ -107,26 +134,36 @@ const AddExerciseModalForm: React.FC<AddExerciseModalFormProps> = ({
       }}
     >
       <View style={styles.header}>
-        <IconButton
-          icon="close"
-          size={24}
-          iconColor={theme.colors.inverseOnSurface}
-          onPress={handleClose}
-          style={{
-            ...styles.closeIcon,
-            backgroundColor: theme.colors.outline,
-          }}
-        />
+        <View style={styles.leftButtons}>
+          <IconButton
+            icon="delete"
+            size={24}
+            onPress={handleRemove}
+            style={{
+              ...styles.removeIcon,
+              backgroundColor: theme.colors.error,
+            }}
+          />
+          <IconButton
+            icon="close"
+            size={24}
+            onPress={handleClose}
+            style={{
+              ...styles.closeIcon,
+              backgroundColor: theme.colors.outline,
+            }}
+          />
+        </View>
         <IconButton
           icon="check"
           size={24}
           iconColor={theme.colors.inverseOnSurface}
-          onPress={handleSave}
+          onPress={handleUpdate}
           style={styles.saveIcon}
         />
       </View>
       <ScrollView contentContainerStyle={styles.scrollView}>
-        <Text style={styles.modalText}>Add Exercise</Text>
+        <Text style={styles.modalText}>Update Exercise</Text>
         <TouchableOpacity
           style={{
             ...styles.photoButton,
@@ -239,7 +276,7 @@ const AddExerciseModalForm: React.FC<AddExerciseModalFormProps> = ({
               backgroundColor: theme.colors.onSurfaceVariant,
             }}
             mode="outlined"
-            value={restBetweenSeries}
+            value={restBetweenSeries || undefined}
             onChangeText={setRestBetweenSeries}
           />
         </View>
@@ -251,7 +288,7 @@ const AddExerciseModalForm: React.FC<AddExerciseModalFormProps> = ({
               backgroundColor: theme.colors.onSurfaceVariant,
             }}
             mode="outlined"
-            value={tempo}
+            value={tempo || undefined}
             onChangeText={setTempo}
           />
         </View>
@@ -266,7 +303,7 @@ const AddExerciseModalForm: React.FC<AddExerciseModalFormProps> = ({
             multiline
             numberOfLines={4}
             mode="outlined"
-            value={notes}
+            value={notes || undefined}
             onChangeText={setNotes}
           />
         </View>
@@ -278,6 +315,7 @@ const AddExerciseModalForm: React.FC<AddExerciseModalFormProps> = ({
 const styles = StyleSheet.create({
   modalView: {
     margin: 20,
+    backgroundColor: 'white',
     borderRadius: 10,
     padding: 20,
     height: '90%',
@@ -287,8 +325,15 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  leftButtons: {
+    flexDirection: 'row',
   },
   closeIcon: {
+    borderRadius: 12,
+  },
+  removeIcon: {
     borderRadius: 12,
   },
   saveIcon: {
@@ -341,4 +386,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddExerciseModalForm;
+export default UpdateExerciseModalForm;

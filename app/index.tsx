@@ -6,7 +6,6 @@ import AddExerciseModalForm from './AddExerciseModalForm';
 import UpdateExerciseModalForm from './UpdateExerciseModalForm/index.tsx';
 import ExerciseItem from '@/model/ExerciseItem';
 import { useExerciseRepository } from '../hooks/repository/useExerciseRepository';
-import { Buffer as BufferPkg } from 'buffer';
 import {
   mapDbToExerciseItem,
   mapExerciseItemToDb,

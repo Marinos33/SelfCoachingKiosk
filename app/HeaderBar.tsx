@@ -1,5 +1,5 @@
 import React from 'react';
-import { Appbar, IconButton } from 'react-native-paper';
+import { Appbar, IconButton, useTheme } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 
 interface HeaderBarProps {
@@ -7,14 +7,18 @@ interface HeaderBarProps {
 }
 
 const HeaderBar: React.FC<HeaderBarProps> = ({ onPlusPress }) => {
+  const theme = useTheme();
   return (
-    <Appbar.Header style={styles.appbar}>
-      <Appbar.Content title="Self Coaching Kiosk" titleStyle={styles.title} />
+    <Appbar.Header>
+      <Appbar.Content title="Self Coaching Kiosk" />
       <IconButton
         icon="plus"
         size={24}
         iconColor="white"
-        style={styles.iconButton}
+        style={{
+          ...styles.iconButton,
+          backgroundColor: theme.colors.background,
+        }}
         onPress={onPlusPress}
       />
     </Appbar.Header>
@@ -22,14 +26,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({ onPlusPress }) => {
 };
 
 const styles = StyleSheet.create({
-  appbar: {
-    backgroundColor: 'red', // Change this to your desired color
-  },
-  title: {
-    color: 'white',
-  },
   iconButton: {
-    backgroundColor: 'black',
     borderRadius: 24,
   },
 });

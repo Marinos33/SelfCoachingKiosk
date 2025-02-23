@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   row: {
-    height: rowHeight, // Adjust the height as needed
+    height: rowHeight,
     width: '100%',
   },
   imageCell: {
@@ -111,8 +111,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: '95%', // Adjust the width as needed
-    height: '95%', // Adjust the height as needed
+    width: '95%',
+    height: '95%',
   },
   text: {
     textAlign: 'center',
@@ -122,6 +122,6 @@ const styles = StyleSheet.create({
   },
   description: {
     textAlign: 'center',
-    marginTop: 5, // Adjust the margin as needed
+    marginTop: 5,
   },
 });
