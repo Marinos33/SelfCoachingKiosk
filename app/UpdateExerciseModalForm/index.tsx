@@ -10,7 +10,6 @@ import {
 import {
   IconButton,
   Modal,
-  Portal,
   TextInput,
   Text,
   useTheme,
@@ -162,7 +161,10 @@ const UpdateExerciseModalForm: React.FC<UpdateExerciseModalFormProps> = ({
           style={styles.saveIcon}
         />
       </View>
-      <ScrollView contentContainerStyle={styles.scrollView}>
+      <ScrollView
+        contentContainerStyle={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+      >
         <Text style={styles.modalText}>Update Exercise</Text>
         <TouchableOpacity
           style={{
@@ -209,9 +211,7 @@ const UpdateExerciseModalForm: React.FC<UpdateExerciseModalFormProps> = ({
           />
         </View>
         <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>
-            Description <Text style={styles.required}>*</Text>
-          </Text>
+          <Text style={styles.inputLabel}>Description</Text>
           <TextInput
             style={{
               ...styles.input,

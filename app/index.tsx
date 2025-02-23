@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import {
+  StyleSheet,
+  ScrollView,
+  RefreshControl,
+  View,
+  ActivityIndicator,
+} from 'react-native';
 import ExercisesGridComponent from './ExercisesGrid';
 import HeaderBar from './HeaderBar';
 import AddExerciseModalForm from './AddExerciseModalForm';
-import UpdateExerciseModalForm from './UpdateExerciseModalForm/index.tsx';
 import ExerciseItem from '@/model/ExerciseItem';
 import { useExerciseRepository } from '../hooks/repository/useExerciseRepository';
 import {
   mapDbToExerciseItem,
   mapExerciseItemToDb,
 } from '../model/ExerciseMapper';
+import UpdateExerciseModalForm from './UpdateExerciseModalForm';
+import { useTheme } from 'react-native-paper';
 
 export default function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -18,14 +25,28 @@ export default function HomeScreen() {
     null,
   );
   const [items, setItems] = useState<ExerciseItem[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(false);
   const {
     data,
     addExercise,
     updateExercise,
     removeExercise,
     getById,
+    fetchData,
     success,
   } = useExerciseRepository();
+  const theme = useTheme();
+
+  useEffect(() => {
+    const loadData = async () => {
+      setLoading(true);
+      await fetchData();
+      setLoading(false);
+    };
+
+    loadData();
+  }, [fetchData]);
 
   useEffect(() => {
     if (!success) return;
@@ -37,20 +58,27 @@ export default function HomeScreen() {
     }
   }, [data, success]);
 
-  const handleAdd = (item: ExerciseItem) => {
+  const handleAdd = async (item: ExerciseItem) => {
+    setLoading(true);
     addExercise(mapExerciseItemToDb(item));
+    setLoading(false);
 
     setModalVisible(false);
   };
 
-  const handleUpdate = (updatedItem: ExerciseItem) => {
+  const handleUpdate = async (updatedItem: ExerciseItem) => {
+    setLoading(true);
     updateExercise(mapExerciseItemToDb(updatedItem));
+    setLoading(false);
 
     setUpdateModalVisible(false);
   };
 
-  const handleRemove = (key: number) => {
+  const handleRemove = async (key: number) => {
+    setLoading(true);
     removeExercise(key);
+    setLoading(false);
+
     setUpdateModalVisible(false);
   };
 
@@ -63,36 +91,58 @@ export default function HomeScreen() {
   };
 
   const handleEditPress = async (exercise: ExerciseItem) => {
+    setLoading(true);
     const selectedExercise: ExerciseItem = mapDbToExerciseItem(
       await getById(exercise.Id),
     );
+    setLoading(false);
 
     setSelectedExercise(selectedExercise);
     setUpdateModalVisible(true);
   };
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchData();
+    setRefreshing(false);
+  };
+
   return (
     <View style={styles.container}>
-      <HeaderBar onPlusPress={() => setModalVisible(true)} />
-      <ExercisesGridComponent
-        items={items}
-        onCheckboxPress={handleCheckboxPress}
-        onEditPress={handleEditPress}
-      />
-      <AddExerciseModalForm
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        onSave={handleAdd}
-      />
-      {selectedExercise && (
-        <UpdateExerciseModalForm
-          visible={updateModalVisible}
-          onClose={() => setUpdateModalVisible(false)}
-          onUpdate={handleUpdate}
-          onRemove={handleRemove}
-          exercise={selectedExercise}
+      {(loading || !success) && (
+        <ActivityIndicator
+          size={120}
+          color={theme.colors.primary}
+          style={styles.loading}
         />
       )}
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <HeaderBar onPlusPress={() => setModalVisible(true)} />
+        <ExercisesGridComponent
+          items={items}
+          onCheckboxPress={handleCheckboxPress}
+          onEditPress={handleEditPress}
+        />
+        <AddExerciseModalForm
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          onSave={handleAdd}
+        />
+        {selectedExercise && (
+          <UpdateExerciseModalForm
+            visible={updateModalVisible}
+            onClose={() => setUpdateModalVisible(false)}
+            onUpdate={handleUpdate}
+            onRemove={handleRemove}
+            exercise={selectedExercise}
+          />
+        )}
+      </ScrollView>
     </View>
   );
 }
@@ -100,5 +150,14 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+  },
+  loading: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: [{ translateX: -25 }, { translateY: -25 }],
   },
 });

@@ -29,7 +29,7 @@ export default function Layout() {
   const colorScheme = useColorScheme();
 
   const paperTheme =
-    colorScheme === 'dark' ? CombinedDarkTheme : CombinedLightTheme;
+    colorScheme === 'light' ? CombinedDarkTheme : CombinedLightTheme;
 
   return (
     <PaperProvider theme={paperTheme}>

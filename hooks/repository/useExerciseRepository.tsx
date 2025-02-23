@@ -42,12 +42,17 @@ export const useExerciseRepository = () => {
     return exercise[0];
   };
 
+  const fetchData = async () => {
+    db.select().from(schema.exercicesTable).execute();
+  };
+
   return {
     data,
     addExercise,
     updateExercise,
     removeExercise,
     getById,
+    fetchData,
     success,
     error,
   };
