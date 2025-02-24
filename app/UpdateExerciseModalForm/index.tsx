@@ -96,7 +96,9 @@ const UpdateExerciseModalForm: React.FC<UpdateExerciseModalFormProps> = ({
       Tempo: tempo,
       Notes: notes,
     };
+
     onUpdate(updatedItem);
+
     handleClose();
   };
 

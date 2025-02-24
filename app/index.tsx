@@ -13,7 +13,8 @@ import ExerciseItem from '@/model/ExerciseItem';
 import { useExerciseRepository } from '../hooks/repository/useExerciseRepository';
 import {
   mapDbToExerciseItem,
-  mapExerciseItemToDb,
+  mapExerciseItemToDbForAdd,
+  mapExerciseItemToDbForUpdate,
 } from '../model/ExerciseMapper';
 import UpdateExerciseModalForm from './UpdateExerciseModalForm';
 import { useTheme } from 'react-native-paper';
@@ -60,7 +61,7 @@ export default function HomeScreen() {
 
   const handleAdd = async (item: ExerciseItem) => {
     setLoading(true);
-    addExercise(mapExerciseItemToDb(item));
+    addExercise(mapExerciseItemToDbForAdd(item));
     setLoading(false);
 
     setModalVisible(false);
@@ -68,9 +69,10 @@ export default function HomeScreen() {
 
   const handleUpdate = async (updatedItem: ExerciseItem) => {
     setLoading(true);
-    updateExercise(mapExerciseItemToDb(updatedItem));
+    updateExercise(mapExerciseItemToDbForUpdate(updatedItem));
     setLoading(false);
 
+    setSelectedExercise(null);
     setUpdateModalVisible(false);
   };
 

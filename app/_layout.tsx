@@ -22,7 +22,6 @@ const { DarkTheme } = adaptNavigationTheme({
 });
 
 const CombinedDarkTheme = merge(DarkTheme, customDarkTheme);
-//TODO: change notch color to dark
 function Layout() {
   Sentry.init({
     dsn: process.env.SENTRY_DSN,

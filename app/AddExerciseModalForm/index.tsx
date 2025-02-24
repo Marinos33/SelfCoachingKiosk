@@ -92,7 +92,9 @@ const AddExerciseModalForm: React.FC<AddExerciseModalFormProps> = ({
       Notes: notes,
       Status: false,
     };
+
     onSave(item);
+
     handleClose();
   };
 
