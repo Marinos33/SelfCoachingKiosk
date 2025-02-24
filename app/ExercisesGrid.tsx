@@ -31,10 +31,14 @@ export default function ExercisesGridComponent({
     setPage(0);
   }, [itemsPerPage]);
 
+  const onTouchRow = (item: ExerciseItem) => {
+    onEditPress(item);
+  };
+
   return (
     <DataTable>
       {items.slice(from, to).map((item) => (
-        <TouchableOpacity key={item.Id} onPress={() => onEditPress(item)}>
+        <TouchableOpacity key={item.Id} onPress={() => onTouchRow(item)}>
           <DataTable.Row style={styles.row}>
             <DataTable.Cell style={styles.imageCell}>
               <Image

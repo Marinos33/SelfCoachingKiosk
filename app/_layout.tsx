@@ -12,6 +12,7 @@ import {
 import { Colors } from '../constants/Colors';
 import merge from 'deepmerge';
 import * as Sentry from '@sentry/react-native';
+import { StatusBar } from 'expo-status-bar';
 
 const customDarkTheme = { ...MD3DarkTheme, colors: Colors.dark };
 
@@ -21,7 +22,7 @@ const { DarkTheme } = adaptNavigationTheme({
 });
 
 const CombinedDarkTheme = merge(DarkTheme, customDarkTheme);
-
+//TODO: change notch color to dark
 function Layout() {
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
@@ -37,6 +38,7 @@ function Layout() {
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
         </Stack>
+        <StatusBar />
       </ThemeProvider>
     </PaperProvider>
   );
